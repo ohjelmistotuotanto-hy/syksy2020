@@ -1,4 +1,3 @@
-
 package ohtu;
 
 import io.cucumber.java.en.Given;
@@ -26,7 +25,28 @@ public class Stepdefs {
 
     @When("it is incremented by {int}")
     public void itIsIncrementedBy(Integer val) {
-         counter.increment(val);       
+        counter.increment(val);       
     }    
 
+    
+    @When("it is reset")
+    public void itIsReset() {
+        counter.increase();
+        counter.reset();
+    }
+    
+    @When("it is reset again")
+    public void itIsResetAgain() {
+        counter.increase();
+        counter.increase();
+        counter.increase();
+        counter.increment(2);
+        counter.reset();
+    }
+    
+    @Then("the value should be zero")
+    public void theValueShouldBeZero(Integer val) {
+        assertEquals(0, counter.value());
+    }
+        
 }

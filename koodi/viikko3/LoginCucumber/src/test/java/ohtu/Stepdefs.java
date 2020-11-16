@@ -29,6 +29,11 @@ public class Stepdefs {
     public void commandLoginSelected() throws Throwable {
         inputLines.add("login");
     }
+    @Given("command new is selected")
+    public void commandNewIsSelected() throws Throwable {
+        inputLines.add("new");
+    }
+
 
     @When("username {string} and password {string} are entered")
     public void usernameAndPasswordAreEntered(String username, String password) {
@@ -38,11 +43,61 @@ public class Stepdefs {
        io = new StubIO(inputLines); 
        app = new App(io, auth);
        app.run();
-    }    
+    }
+    
+   @When("username {string} or password {string} are not entered correct")
+    public void usernameOrPasswordAreNotEnteredCorrect(String username, String password) {
+       inputLines.add(username);
+       inputLines.add(password);
+       
+       io = new StubIO(inputLines); 
+       app = new App(io, auth);
+       app.run();
+} 
+    
+    
+    @When("username {string} does not exist")
+    public void usernameDoesNotExist(String username) {
+    
+       inputLines.add(username);
+       inputLines.add(" ");
+       
+       io = new StubIO(inputLines); 
+       app = new App(io, auth);
+       app.run();
+    
+}
     
     @Then("system will respond with {string}")
     public void systemWillRespondWith(String expectedOutput) {
+     //   System.out.println("ohjelma tulosti seuraavat rivit "+io.getPrints());
         assertTrue(io.getPrints().contains(expectedOutput));
     }    
-
+    
+    
+    
+    @Given("user {string} with password {string} is created")
+    public void userWithPasswordIsCreated(String username, String password) {
+        inputLines.add("new");
+        inputLines.add(username);
+       inputLines.add(password);
+       
+       io = new StubIO(inputLines); 
+       app = new App(io, auth);
+       app.run();
+        
+}
+   
+@When("username {string} with password {string} are entered")
+public void usernameWithPasswordAreEntered(String username, String password) {
+        inputLines.add(username);
+       inputLines.add(password);
+       
+       io = new StubIO(inputLines); 
+       app = new App(io, auth);
+       app.run();
+}
+    
+    
+    
 }

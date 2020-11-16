@@ -8,8 +8,7 @@ application {
 }
 
 repositories {
-    jc
-    enter()
+    jcenter()
 }
 project.ext {
     cucumberVersion = '6.8.1'
@@ -29,4 +28,7 @@ repositories {
 test {
     testLogging.showStandardStreams = true
     systemProperties System.getProperties()
+}
+run {
+    standardInput = System.in
 }
