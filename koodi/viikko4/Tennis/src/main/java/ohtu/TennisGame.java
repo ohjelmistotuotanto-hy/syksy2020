@@ -1,80 +1,112 @@
 package ohtu;
 
 public class TennisGame {
-    
-    private int m_score1 = 0;
-    private int m_score2 = 0;
-    private String player1Name;
-    private String player2Name;
 
-    public TennisGame(String player1Name, String player2Name) {
-        this.player1Name = player1Name;
-        this.player2Name = player2Name;
+    private int playerOneScore = 0;
+    private int playerTwoScore = 0;
+    private String playerOneName;
+    private String playerTwoName;
+
+    public TennisGame(String playerOneName, String playerTwoName) {
+        this.playerOneName = playerOneName;
+        this.playerTwoName = playerTwoName;
     }
 
     public void wonPoint(String playerName) {
-        if (playerName == "player1")
-            m_score1 += 1;
-        else
-            m_score2 += 1;
+        if (playerName == this.playerOneName) {
+            this.playerOneScore += 1;
+            return;
+        }
+        if (playerName == this.playerTwoName) {
+            this.playerTwoScore += 1;
+
+        }
     }
 
     public String getScore() {
-        String score = "";
-        int tempScore=0;
-        if (m_score1==m_score2)
-        {
-            switch (m_score1)
-            {
-                case 0:
-                        score = "Love-All";
-                    break;
-                case 1:
-                        score = "Fifteen-All";
-                    break;
-                case 2:
-                        score = "Thirty-All";
-                    break;
-                case 3:
-                        score = "Forty-All";
-                    break;
-                default:
-                        score = "Deuce";
-                    break;
-                
-            }
+
+        if (playersHaveSameScore()) {
+            return mapEvenNumbertoTennisScore(playerOneScore);
         }
-        else if (m_score1>=4 || m_score2>=4)
-        {
-            int minusResult = m_score1-m_score2;
-            if (minusResult==1) score ="Advantage player1";
-            else if (minusResult ==-1) score ="Advantage player2";
-            else if (minusResult>=2) score = "Win for player1";
-            else score ="Win for player2";
+
+        if (isThereWinner()) {
+            return "Win for " + winningPlayerName();
         }
-        else
-        {
-            for (int i=1; i<3; i++)
-            {
-                if (i==1) tempScore = m_score1;
-                else { score+="-"; tempScore = m_score2;}
-                switch(tempScore)
-                {
-                    case 0:
-                        score+="Love";
-                        break;
-                    case 1:
-                        score+="Fifteen";
-                        break;
-                    case 2:
-                        score+="Thirty";
-                        break;
-                    case 3:
-                        score+="Forty";
-                        break;
-                }
-            }
+
+        if (playerHasAdvantage()) {
+            return "Advantage " + winningPlayerName();
         }
-        return score;
+
+        return mapNumbertoTennisScore(playerOneScore) + "-" + mapNumbertoTennisScore(playerTwoScore);
+
     }
+
+    private boolean isThereWinner() {
+
+        if (playerTwoScore >= 4 && playerTwoScore >= playerOneScore + 2) {
+            return true;
+
+        }
+        if (playerOneScore >= 4 && playerOneScore >= playerTwoScore + 2) {
+            return true;
+        }
+        return false;
+
+    }
+
+    private boolean playerHasAdvantage() {
+        if (playerTwoScore >= 4 && playerTwoScore == playerOneScore + 1) {
+            return true;
+        }
+        if (playerOneScore >= 4 && playerOneScore == playerTwoScore + 1) {
+            return true;
+        }
+        return false;
+
+    }
+
+    private String mapEvenNumbertoTennisScore(int number) {
+        switch (number) {
+            case 3:
+                return "Forty-All";
+            case 2:
+                return "Thirty-All";
+            case 1:
+                return "Fifteen-All";
+            case 0:
+                return "Love-All";
+        }
+        return "Deuce";
+    }
+
+    private String mapNumbertoTennisScore(int number) {
+        switch (number) {
+            case 3:
+                return "Forty";
+            case 2:
+                return "Thirty";
+            case 1:
+                return "Fifteen";
+            case 0:
+                return "Love";
+        }
+        return "Not tennis";
+    }
+
+    private boolean playersHaveSameScore() {
+        return playerOneScore == playerTwoScore;
+    }
+
+    private String winningPlayerName() {
+        if (playerTwoScore < playerOneScore) {
+            return playerOneName;
+        }
+
+        if (playerTwoScore > playerOneScore) {
+            return playerTwoName;
+        }
+
+        return "";
+    }
+
 }

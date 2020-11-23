@@ -120,7 +120,7 @@ public class Sovellus {
 
         Scanner lukija = new Scanner(System.in);
         while (true) {
-            luettu = lukija.nextLine();
+            luettu =   lukija.nextLine();
             if (luettu.equals("lisää") || luettu.equals("li")) {
                 lisaa();
             } else if (luettu.equalsIgnoreCase("poista") || luettu.equalsIgnoreCase("p")) {
